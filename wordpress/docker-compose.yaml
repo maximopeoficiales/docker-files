@@ -1,0 +1,39 @@
+## docker-compose para correr wordpress con una base de datos en mysql
+## by maximoprog
+version: "3.1"
+services:
+  wordpress:
+    container_name: wp_wordpress
+    image: wordpress:5.7-php7.4-apache
+    ports:
+      - 80:80
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: root
+      WORDPRESS_DB_NAME: wordpress
+    links:
+      - mysql:mysql
+    volumes:
+      - ./docker/wordpress:/var/www/html
+  mysql:
+    container_name: mysql-wordpress
+    image: mysql:8.0.13
+    ports:
+      - 3306:3306
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./docker/mysql-data:/var/lib/mysql
+  phpmyadmin:
+    container_name: phpmyadmin-wordpress
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mysql:db
+    ports:
+      - 81:80
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: root
