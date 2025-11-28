@@ -1,10 +1,10 @@
 ## docker-compose para correr wordpress con una base de datos en mysql
 ## by maximoprog
-version: "3.1"
+version: "3.8"
 services:
   mysql:
     container_name: mysql-maximo
-    image: mysql:5.7
+    image: mysql:8.0
     ports:
       - 3306:3306
     command: --default-authentication-plugin=mysql_native_password
@@ -15,7 +15,7 @@ services:
       - ./mysql-data:/var/lib/mysql
   phpmyadmin:
     container_name: phpmyadmin-maximo
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin:latest
     links:
       - mysql:db
     ports:
